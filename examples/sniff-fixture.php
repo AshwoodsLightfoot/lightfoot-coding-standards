@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace LightfootCodingStandards\Examples;
+
 // This file is a playground to run Lightfoot Coding Standard sniffs against.
 // It intentionally includes both CORRECT and INCORRECT examples for:
 // - LogicalOperatorLinePositionSniff (logical operators must start the next line in multi-line conditions)
