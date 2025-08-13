@@ -4,4 +4,5 @@
 
     <rule ref="PSR12"/>
     <rule ref="LightfootCodingStandard.Sniffs.ControlStructures.LogicalOperatorLinePositionSniff"/>
+    <rule ref="LightfootCodingStandard.Sniffs.Formatting.ChainedMethodSemicolonPositionSniff"/>
 </ruleset>
