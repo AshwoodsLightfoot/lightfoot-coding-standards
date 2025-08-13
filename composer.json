@@ -1,7 +1,7 @@
 {
   "name": "ashwoodslightfoot/lightfoot-coding-standards",
   "description": "Custom PHPCS standard based on PSR-12",
-  "version": "1.0.0",
+  "license": "MIT",
   "type": "phpcodesniffer-standard",
   "autoload": {
     "psr-4": {
