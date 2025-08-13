@@ -21,7 +21,9 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^1.1"
   },
   "scripts": {
-    "test": "./vendor/bin/phpunit --bootstrap ./tests/bootstrap.php ./tests"
+    "test": "./vendor/bin/phpunit --bootstrap ./tests/bootstrap.php ./tests",
+    "cs": "./vendor/bin/phpcs --standard=src/LightfootCodingStandards/ruleset.xml examples/sniff-fixture.php",
+    "fix": "./vendor/bin/phpcbf --standard=src/LightfootCodingStandards/ruleset.xml examples/sniff-fixture.php"
   },
   "config": {
     "allow-plugins": {
