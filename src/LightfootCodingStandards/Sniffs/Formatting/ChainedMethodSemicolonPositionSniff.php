@@ -50,11 +50,31 @@ final class ChainedMethodSemicolonPositionSniff implements Sniff
             }
         }
 
-        // Determine if semicolon is on the same line as previous token (candidate for violation)
+        // Previous non-whitespace before semicolon.
         $prevPtr = $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, null, true);
         if ($prevPtr === false) {
             return;
         }
+
+        // Guard 1: If the previous meaningful token is a close curly, this likely ends a block
+        // (e.g., anonymous class, control structure). Do not enforce chain semicolon rule.
+        if ($tokens[$prevPtr]['code'] === T_CLOSE_CURLY_BRACKET) {
+            return;
+        }
+
+        // Guard 2: Apply only to statements that actually contain a chain operator (-> or ?->)
+        $hasChainOperator = false;
+        for ($i = $startPtr; $i < $stackPtr; $i++) {
+            if (in_array($tokens[$i]['code'] ?? null, [T_OBJECT_OPERATOR, T_NULLSAFE_OBJECT_OPERATOR], true)) {
+                $hasChainOperator = true;
+                break;
+            }
+        }
+        if (!$hasChainOperator) {
+            return; // Not a chained call; ignore.
+        }
+
+        // Determine if semicolon is on the same line as previous token (candidate for violation)
         $sameLineAsPrev = ($tokens[$prevPtr]['line'] === $semicolon['line']);
         if (!$sameLineAsPrev) {
             return; // Semicolon already on its own line
@@ -67,7 +87,6 @@ final class ChainedMethodSemicolonPositionSniff implements Sniff
         }
 
         // If the semicolon is already at the start of a new line (only whitespace before on this line), OK.
-        // Compute start of current line manually to avoid reliance on PHPCS-specific helpers.
         $lineStart = $stackPtr;
         while ($lineStart > 0 && $tokens[$lineStart - 1]['line'] === $semicolon['line']) {
             $lineStart--;
