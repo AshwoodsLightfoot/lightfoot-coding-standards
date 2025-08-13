@@ -31,3 +31,10 @@ if (
 ) {
     echo "This is another test";
 }
+
+// '&&' should be at start of next line
+$this->tempFileRepo->create(
+    $this->bodyTempFilePath !== null &&
+    $this->bodyTempFilePath !== '' &&
+    $this->bodyTempFilePath !== '0' ? $this->bodyTempFilePath : ''
+);
