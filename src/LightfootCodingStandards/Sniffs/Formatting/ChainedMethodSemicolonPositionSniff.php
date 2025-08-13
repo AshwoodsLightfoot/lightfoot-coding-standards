@@ -60,25 +60,23 @@ final class ChainedMethodSemicolonPositionSniff implements Sniff
             return; // Semicolon already on its own line
         }
 
-        // Ensure the statement is multi-line by checking there exists any token on a previous line before the semicolon
-        $i = $prevPtr;
-        while ($i > 0 && $tokens[$i]['line'] === $semicolon['line']) {
-            $i--;
+        // Ensure the statement is multi-line: start of statement must be on a previous line
+        $startLine = $tokens[$startPtr]['line'] ?? $semicolon['line'];
+        if ($startLine === $semicolon['line']) {
+            return; // Single-line statement
         }
-        if ($i <= 0) {
-            return; // No previous line content -> treat as single-line
-        }
-
 
         // If the semicolon is already at the start of a new line (only whitespace before on this line), OK.
-        $lineStart = $phpcsFile->findFirstOnLine([], $stackPtr);
+        // Compute start of current line manually to avoid reliance on PHPCS-specific helpers.
+        $lineStart = $stackPtr;
+        while ($lineStart > 0 && $tokens[$lineStart - 1]['line'] === $semicolon['line']) {
+            $lineStart--;
+        }
         $onlyWhitespaceBefore = true;
-        if ($lineStart !== false) {
-            for ($k = $lineStart; $k < $stackPtr; $k++) {
-                if ($tokens[$k]['code'] !== T_WHITESPACE) {
-                    $onlyWhitespaceBefore = false;
-                    break;
-                }
+        for ($k = $lineStart; $k < $stackPtr; $k++) {
+            if ($tokens[$k]['code'] !== T_WHITESPACE) {
+                $onlyWhitespaceBefore = false;
+                break;
             }
         }
         if ($onlyWhitespaceBefore) {

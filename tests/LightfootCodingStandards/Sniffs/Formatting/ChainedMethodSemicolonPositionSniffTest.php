@@ -10,7 +10,7 @@ use SniffTestHelper;
 class ChainedMethodSemicolonPositionSniffTest extends TestCase {
     public function testSemicolonMustBeOnNewLineForChainedCalls() {
         $fixtureFile = __DIR__ . '/fixture.php';
-        $sniffFile = __DIR__ . '/../../../../src/LightfootCodingStandards/Sniffs/ControlStructures/ChainedMethodSemicolonPositionSniff.php';
+        $sniffFile = __DIR__ . '/../../../../src/LightfootCodingStandards/Sniffs/Formatting/ChainedMethodSemicolonPositionSniff.php';
         $helper = new SniffTestHelper();
         $phpcsFile = $helper->prepareLocalFileForSniffs($sniffFile, $fixtureFile);
         $phpcsFile->process();

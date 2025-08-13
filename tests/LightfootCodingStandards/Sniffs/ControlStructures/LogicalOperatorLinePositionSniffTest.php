@@ -15,6 +15,6 @@ class LogicalOperatorLinePositionSniffTest extends TestCase {
         $phpcsFile = $helper->prepareLocalFileForSniffs($sniffFile, $fixtureFile);
         $phpcsFile->process();
         $lines = $helper->getErrorLineNumbersFromFile($phpcsFile);
-        $this->assertEquals([8, 29, 36, 37], $lines);
+        $this->assertEquals([8, 29, 37, 38], $lines);
     }
 }
