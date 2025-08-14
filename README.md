@@ -48,6 +48,37 @@ if ($condition1 &&
 }
 ```
 
+### Formatting
+
+#### ChainedMethodSemicolonPositionSniff
+
+Enforces that in multi-line chained method calls, the terminating semicolon must be on its own line, aligned with the start of the statement.
+This sniff is auto-fixable using phpcbf (for example: composer fix in this repo).
+
+**Valid:**
+```php
+$installationId = $this->deviceAssignment
+                ->getInstallation()
+                ?->getId()
+;
+
+$this->deviceAssignment
+    ->getInstallation()
+    ->getId()
+;
+```
+
+**Invalid:**
+```php
+$installationId = $this->deviceAssignment
+                ->getInstallation()
+                ?->getId();
+
+$this->deviceAssignment
+    ->getInstallation()
+    ->getId();
+```
+
 ## Running Tests
 
 To run the tests for this coding standard:
@@ -56,6 +87,15 @@ To run the tests for this coding standard:
 composer install
 composer test
 ```
+
+## Testing your fixes
+
+```bash
+composer cs
+composer fix
+```
+
+Those commands will run the tests and fix any issues found on the `sniff-fixture.php` file. Please ensure you do not commit any fixes to the file.
 
 ## Contributing
 
